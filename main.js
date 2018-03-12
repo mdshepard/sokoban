@@ -8,37 +8,42 @@ const map = [
     "WB XBBOW",
     "W   O  W",
     "WWWWWWWW"
-      ];
+];
+
+const wall = "W";
+const floor = " ";
+const box = "B";
+const container = "O";
+const boxInContainer = "X";
+
 let playerTop = 40;
 var playerLeft = 40;
-var cell;
 let mapDiv = document.getElementById("map");
-var row;
-var column;
-let posX =2;
-let posY =2;
-let playerPos = false;
-let boxes = [];
 
-document.addEventListener("keydown", (event) => {  
+let posX = 2;
+let posY = 2;
+// let boxes = [];
+
+document.addEventListener("keydown", (event) => {
     let keyName = event.key;
     if (keyName === "ArrowUp") {
         console.log("posX: ", posX);
         console.log("posY: ", posY);
-        if (posY <= 7 && posY > 0) { 
-            if ((map[posY-1][posX] === " ") || (map[posY-1][posX] === "O")) {
+        if (posY <= 7 && posY > 0) {
+            if ((map[posY - 1][posX] === floor) || (map[posY - 1][posX] === floor) || (map[posY - 1][posX] === "S")) {
                 posY -= 1;
                 playerTop -= 20;
                 document.getElementById("player").style.top = playerTop + "px";
-            } 
-            else if (map[posY-1][posX] === "B") {
-                let boxDes = map[posY-2][posX]
-                if (boxDes === " " || boxDes ==="O") {
+            }
+            else if (map[posY - 1][posX] === box) {
+                let boxDes = map[posY - 2][posX]
+                if (boxDes === floor || boxDes === floor) {
                     posY -= 1;
                     playerTop -= 20;
                     document.getElementById("player").style.top = playerTop + "px";
                     let boxId = String(posY) + String(posX);
-                    document.getElementById(boxId).style.top = (playerTop - 20) + "px";    
+                    document.getElementById(boxId).style.top = (playerTop - 20) + "px";
+
                 }
             }
 
@@ -47,21 +52,20 @@ document.addEventListener("keydown", (event) => {
     if (keyName === "ArrowDown") {
         console.log("posX: ", posX);
         console.log("posY: ", posY);
-        if (posY <= 7 && posY > 0) { 
-   debugger;
-            if ((map[posY+1][posX] === " ") || (map[posY+1][posX] === "O")) {
+        if (posY <= 7 && posY > 0) {
+            if ((map[posY + 1][posX] === floor) || (map[posY + 1][posX] === floor)) {
                 posY += 1;
                 playerTop += 20;
                 document.getElementById("player").style.top = playerTop + "px";
-            } 
-            else if (map[posY+1][posX] === "B"){
-                let boxDes = map[posY+2][posX]
-                if (boxDes === " " || boxDes === "O") {
+            }
+            else if (map[posY + 1][posX] === box) {
+                let boxDes = map[posY + 2][posX]
+                if (boxDes === floor || boxDes === floor) {
                     posY += 1;
                     playerTop += 20;
                     document.getElementById("player").style.top = playerTop + "px";
                     let boxId = String(posY) + String(posX);
-                    document.getElementById(boxId).style.top = (playerTop + 20) +"px";
+                    document.getElementById(boxId).style.top = (playerTop + 20) + "px";
                 }
             }
         }
@@ -69,88 +73,95 @@ document.addEventListener("keydown", (event) => {
     if (keyName === "ArrowRight") {
         console.log("posX: ", posX);
         console.log("posY: ", posY);
-        if (posX <= 6 && posX >= 0) { 
-            if ((map[posY][posX+1] === " ") || (map[posY][posX+1] === "O"))  {
+        if (posX <= 6 && posX >= 0) {
+            if ((map[posY][posX + 1] === floor) || (map[posY][posX + 1] === floor)) {
                 posX += 1;
                 playerLeft += 20;
                 document.getElementById("player").style.left = playerLeft + "px";
 
             }
-            else if (map[posY][posX+1] === "B") {
-                let boxDes = map[posY][posX+2]
-                if (boxDes === " " || boxDes ==="O") {
+            else if (map[posY][posX + 1] === box) {
+                let boxDes = map[posY][posX + 2]
+                if (boxDes === floor || boxDes === floor) {
                     posX += 1;
                     playerLeft += 20;
                     document.getElementById("player").style.left = playerLeft + "px";
                     let boxId = String(posY) + String(posX);
                     document.getElementById(boxId).style.left = (playerLeft + 20) + "px";
                 }
-            } 
+            }
 
         }
     }
     if (keyName === "ArrowLeft") {
         console.log("posX: ", posX);
         console.log("posY: ", posY);
-        if (posX <= 6 && posX > 0) { 
-            if ((map[posY][posX-1] === " ") || (map[posY][posX-1] === "B")) {
+        if (posX <= 6 && posX > 0) {
+            if ((map[posY][posX - 1] === floor) || (map[posY][posX - 1] === box)) {
                 posX -= 1;
                 playerLeft -= 20;
                 document.getElementById("player").style.left = playerLeft + "px";
-            } 
-            else if (map[posY][posX-1] === "B"){
-                let boxDes = map[posY][posX-2] 
-                if (boxDes === " " || boxDes === "O") {
+            }
+            else if (map[posY][posX - 1] === box) {
+                let boxDes = map[posY][posX - 2]
+                if (boxDes === floor || boxDes === floor) {
                     posX -= 1;
                     playerLeft -= 20;
                     document.getElementById("player").style.left = playerLeft + "px";
                     let boxId = String(posY) + String(posX);
                     document.getElementById(boxId).style.left = (playerLeft - 20) + "px";
-                 }
+                }
             }
         }
     }
-    // // if (playerPos) {
-    // //     alert("You've finished!");
-    // //     playerTop = 40;
-    // //     playerLeft = 40;
-    // //     posX = 2;
-    // //     posY = 2;
-    // //     playerPos = false;
-    // //     document.getElementById("player").style.top = playerTop + "px";
-    // //     document.getElementById("player").style.left = playerLeft + "px";
+})
 
-    // }
-    }
-)
+function createElement(cssClass) {
+    let element = document.createElement("div");
+    element.setAttribute("class", cssClass);
+    return element;
+}
 
-for (y = 0; y < map.length; y++) {
-    row = document.createElement("div");
-    row.setAttribute("class","row");
-    var tmpRow=map[y];
-    console.log(tmpRow);
-        for (x = 0; x < tmpRow.length; x++) {
-            column = document.createElement("div");
-            column.setAttribute("class", "column");
-            // column.textContent = tmpRow[y];
+function createMap() {
+    var row;
+    var column;
+    for (let rowIndex = 0; rowIndex < map.length; rowIndex++) {
+        row = createElement("row");
+        mapDiv.appendChild(row);
+
+        var rowAsString = map[rowIndex];
+        console.log(rowAsString);
+
+        for (let colIndex = 0; colIndex < rowAsString.length; colIndex++) {
+            column = createElement("column");
+            // column.textContent = tmpRow[rowIndex];
             row.appendChild(column);
-            if (tmpRow[x] == "W") {
+
+            let cell = rowAsString[colIndex]
+
+            if (cell == wall) {
                 column.style.backgroundColor = "blue";
             }
-            if (tmpRow[x] == "B") {
+
+            if (cell == box) {
                 let boxDiv = document.createElement("div");
-                boxDiv.id = String(y)+String(x);
+                boxDiv.id = String(rowIndex) + String(colIndex);
                 boxDiv.classList.add("box");
                 document.body.appendChild(boxDiv);
-                boxDiv.style.left = (x*20) + "px";
-                boxDiv.style.top = (y*20) + "px";
+                boxDiv.style.left = (colIndex * 20) + "px";
+                boxDiv.style.top = (rowIndex * 20) + "px";
             }
-            if (tmpRow[x] == "O") {
+
+            if (cell == floor) {
                 column.style.backgroundColor = "coral";
             }
-            if (tmpRow[x] == "X") {
-                column.style.backgroundColor = "brown"
+
+            if (cell == boxInContainer) {
+                column.style.backgroundColor = "brown";
             }
-        }
-    mapDiv.appendChild(row);
+        }        
+    }
+
 }
+
+createMap();

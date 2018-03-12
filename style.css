@@ -30,5 +30,6 @@ body {
     width: 20px;
     background-color: cyan;
     left: 40px;
-    top: 40px;   
+    top: 40px; 
+    z-index: 100; 
 }
